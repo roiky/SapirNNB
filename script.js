@@ -68,4 +68,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    /* ==============================
+       Dynamic Galleries Loader
+       ============================== */
+    function loadGallery(folderPath, containerSelector) {
+        const track = document.querySelector(containerSelector);
+        if (!track) return;
+        
+        let i = 1;
+        track.innerHTML = ''; // Clear hardcoded emojis
+
+        function tryLoadImage() {
+            const img = new Image();
+            img.src = `${folderPath}/${i}.jpg`;
+            img.className = 'gallery-item';
+            
+            img.onload = () => {
+                track.appendChild(img);
+                i++;
+                tryLoadImage();
+            };
+
+            img.onerror = () => {
+                if (i > 1) {
+                    // Duplicate for infinite CSS scrolling
+                    const currentItems = Array.from(track.children);
+                    currentItems.forEach(item => {
+                        const clone = item.cloneNode(true);
+                        track.appendChild(clone);
+                    });
+                }
+            };
+        }
+
+        tryLoadImage();
+    }
+
+    loadGallery('Gallery', '#gallery .gallery-track');
+    loadGallery('Testimonials', '#testimonials .gallery-track');
+
 });

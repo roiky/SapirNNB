@@ -407,6 +407,7 @@ a {
     flex-shrink: 0;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     transition: transform var(--transition-fast);
+    object-fit: cover;
 }
 
 .gallery-item:hover {
