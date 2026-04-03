@@ -360,6 +360,14 @@ a {
     filter: brightness(1.1);
 }
 
+.waze {
+    background-color: #33ccff;
+}
+.waze:hover {
+    background-color: #00ace6;
+    transform: translateY(-2px);
+}
+
 /* =========================================
    GALLERY SECTION
    ========================================= */
