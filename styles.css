@@ -410,6 +410,10 @@ a {
     object-fit: cover;
 }
 
+#testimonials .gallery-item {
+    object-fit: contain;
+}
+
 .gallery-item:hover {
     transform: scale(1.05);
 }
