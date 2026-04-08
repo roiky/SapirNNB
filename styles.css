@@ -409,20 +409,24 @@ a {
 .gallery-slider {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     padding: 20px 0;
+    scroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.gallery-slider::-webkit-scrollbar {
+    display: none;
 }
 
 .gallery-track {
     display: flex;
-    /* Calculated as: width of item (300px) * count (5) + gap (30px) * 5 */
-    width: calc(1500px + 150px);
-    animation: scrollGallery 20s linear infinite;
+    width: max-content;
     gap: 30px;
-}
-
-.gallery-track:hover {
-    animation-play-state: paused;
+    padding: 0 15px;
 }
 
 .gallery-item {
@@ -448,21 +452,7 @@ a {
     transform: scale(1.05);
 }
 
-@keyframes scrollGallery {
-    0% {
-        transform: translateX(0);
-    }
 
-    100% {
-        /* Move half the total track width to create the seamless loop */
-        transform: translateX(calc(1500px + 150px));
-        /* move right for RTL */
-    }
-}
-
-.testimonials-track {
-    animation-direction: reverse;
-}
 
 /* =========================================
    FLOATING ACTIONS

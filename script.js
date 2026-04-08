@@ -24,13 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
        Scroll Observer for Fade-in Animations
        ============================== */
     const faders = document.querySelectorAll('.fade-in');
-    
+
     const appearOptions = {
         threshold: 0.15,
         rootMargin: "0px 0px -50px 0px"
     };
 
-    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+    const appearOnScroll = new IntersectionObserver(function (entries, observer) {
         entries.forEach(entry => {
             if (!entry.isIntersecting) {
                 return;
@@ -69,12 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==============================
-       Dynamic Galleries Loader
+       Dynamic Galleries Loader & Scroller
        ============================== */
-    function loadGallery(folderPath, containerSelector) {
+    function loadGallery(folderPath, containerSelector, speed) {
         const track = document.querySelector(containerSelector);
         if (!track) return;
-        
+
         let i = 1;
         track.innerHTML = ''; // Clear hardcoded emojis
 
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = new Image();
             img.src = `${folderPath}/${i}.jpg`;
             img.className = 'gallery-item';
-            
+
             img.onload = () => {
                 track.appendChild(img);
                 i++;
@@ -91,12 +91,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             img.onerror = () => {
                 if (i > 1) {
-                    // Duplicate for infinite CSS scrolling
+                    // Duplicate elements to allow seamless infinite auto-scroll illusion
                     const currentItems = Array.from(track.children);
                     currentItems.forEach(item => {
                         const clone = item.cloneNode(true);
                         track.appendChild(clone);
                     });
+                    makeTrackDraggableAndAutoScroll(track.parentElement, speed);
                 }
             };
         }
@@ -104,7 +105,69 @@ document.addEventListener('DOMContentLoaded', () => {
         tryLoadImage();
     }
 
-    loadGallery('Gallery', '#gallery .gallery-track');
-    loadGallery('Testimonials', '#testimonials .gallery-track');
+    function makeTrackDraggableAndAutoScroll(slider, speed) {
+        // Enforce LTR rendering on the slider so scrollLeft mathematics are standardized
+        // across all browsers (stops RTL scroll logic clamping bugs)
+        slider.setAttribute('dir', 'ltr');
 
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let animationId;
+
+        if (speed < 0) {
+            slider.scrollLeft = slider.scrollWidth / 2;
+        } else {
+            slider.scrollLeft = 0;
+        }
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.style.cursor = 'grabbing';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+            cancelAnimationFrame(animationId);
+        });
+
+        const startOver = () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+            play();
+        };
+
+        slider.addEventListener('mouseleave', startOver);
+        slider.addEventListener('mouseup', startOver);
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        slider.addEventListener('touchstart', () => cancelAnimationFrame(animationId), { passive: true });
+        slider.addEventListener('touchend', startOver, { passive: true });
+
+        function play() {
+            cancelAnimationFrame(animationId);
+            function scroll() {
+                if (speed > 0 && slider.scrollLeft >= slider.scrollWidth / 2) {
+                    slider.scrollLeft -= slider.scrollWidth / 2;
+                } else if (speed < 0 && slider.scrollLeft <= 0) {
+                    slider.scrollLeft += slider.scrollWidth / 2;
+                }
+
+                slider.scrollLeft += speed;
+                animationId = requestAnimationFrame(scroll);
+            }
+            animationId = requestAnimationFrame(scroll);
+        }
+
+        slider.style.cursor = 'grab';
+        play();
+    }
+
+    loadGallery('Gallery', '#gallery .gallery-track', 1);
+    loadGallery('Testimonials', '#testimonials .gallery-track', -1);
 });
