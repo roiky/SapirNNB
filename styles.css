@@ -2,10 +2,13 @@
    VARIABLES & SETUP
    ========================================= */
 :root {
-    --primary-color: #d1bfae; /* soft elegant nude/mauve */
+    --primary-color: #d1bfae;
+    /* soft elegant nude/mauve */
     --primary-dark: #b5a392;
-    --secondary-color: #f7e6e5; /* very soft pink */
-    --accent-color: #3b2f2f; /* dark brown/grey for text */
+    --secondary-color: #f7e6e5;
+    /* very soft pink */
+    --accent-color: #3b2f2f;
+    /* dark brown/grey for text */
     --text-color: #4a4a4a;
     --bg-color: #ffffff;
     --bg-light: #faf9f8;
@@ -36,7 +39,11 @@ body {
 /* =========================================
    TYPOGRAPHY & GLOBALS
    ========================================= */
-h1, h2, h3, h4, .logo {
+h1,
+h2,
+h3,
+h4,
+.logo {
     color: var(--accent-color);
     font-weight: 700;
 }
@@ -167,7 +174,8 @@ a {
     transition: width var(--transition-fast);
 }
 
-.nav-link:hover::after, .nav-link.active::after {
+.nav-link:hover::after,
+.nav-link.active::after {
     width: 100%;
 }
 
@@ -198,13 +206,17 @@ a {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-top: 80px; /* Offset for header */
+    padding-top: 80px;
+    /* Offset for header */
 }
 
 /* Optional: If we want a background image, we can add it here and use hero-overlay */
 .hero-overlay {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: url('hero-bg-placeholder.jpg') center/cover no-repeat;
     opacity: 0.15;
     z-index: 0;
@@ -258,7 +270,7 @@ a {
     font-size: 2rem;
     color: var(--primary-dark);
     font-weight: 700;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
 }
 
 /* =========================================
@@ -275,14 +287,14 @@ a {
     padding: 40px 30px;
     border-radius: 20px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     transition: all var(--transition-fast);
     border: 1px solid rgba(209, 191, 174, 0.2);
 }
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }
 
 .card-icon {
@@ -308,7 +320,7 @@ a {
     background: white;
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
 .info-item {
@@ -324,7 +336,8 @@ a {
 
 .info-icon {
     font-size: 1.5rem;
-    margin-left: 15px; /* RTL - margin-left instead of right */
+    margin-left: 15px;
+    /* RTL - margin-left instead of right */
     color: var(--primary-color);
 }
 
@@ -347,6 +360,7 @@ a {
 .whatsapp {
     background-color: #25D366;
 }
+
 .whatsapp:hover {
     background-color: #128C7E;
     transform: translateY(-2px);
@@ -355,6 +369,7 @@ a {
 .instagram {
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
+
 .instagram:hover {
     transform: translateY(-2px);
     filter: brightness(1.1);
@@ -363,9 +378,19 @@ a {
 .waze {
     background-color: #33ccff;
 }
+
 .waze:hover {
     background-color: #00ace6;
     transform: translateY(-2px);
+}
+
+.icon-btn {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
 }
 
 /* =========================================
@@ -405,7 +430,7 @@ a {
     justify-content: center;
     font-size: 5rem;
     flex-shrink: 0;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
     transition: transform var(--transition-fast);
     object-fit: cover;
 }
@@ -422,9 +447,11 @@ a {
     0% {
         transform: translateX(0);
     }
+
     100% {
         /* Move half the total track width to create the seamless loop */
-        transform: translateX(calc(1500px + 150px)); /* move right for RTL */
+        transform: translateX(calc(1500px + 150px));
+        /* move right for RTL */
     }
 }
 
@@ -462,7 +489,7 @@ a {
     .hamburger {
         display: flex;
     }
-    
+
     .nav {
         position: fixed;
         left: -100%;
@@ -472,36 +499,38 @@ a {
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
     }
-    
+
     .nav.active {
         left: 0;
     }
-    
+
     .nav-list {
         flex-direction: column;
         padding: 20px 0;
     }
-    
+
     .about-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .hero h1 {
         font-size: 2.8rem;
     }
-    
+
     .hero .subtitle {
         font-size: 1.2rem;
     }
-    
+
     .hamburger.active .bar:nth-child(2) {
         opacity: 0;
     }
+
     .hamburger.active .bar:nth-child(1) {
         transform: translateY(8px) rotate(45deg);
     }
+
     .hamburger.active .bar:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
     }
