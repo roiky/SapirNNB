@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let startX;
         let scrollLeft;
         let animationId;
+        let isDragging = false;
 
         if (speed < 0) {
             slider.scrollLeft = slider.scrollWidth / 2;
@@ -123,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         slider.addEventListener('mousedown', (e) => {
             isDown = true;
+            isDragging = false;
             slider.style.cursor = 'grabbing';
             startX = e.pageX - slider.offsetLeft;
             scrollLeft = slider.scrollLeft;
@@ -141,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slider.addEventListener('mousemove', (e) => {
             if (!isDown) return;
             e.preventDefault();
+            isDragging = true;
             const x = e.pageX - slider.offsetLeft;
             const walk = (x - startX) * 2;
             slider.scrollLeft = scrollLeft - walk;
@@ -148,6 +151,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         slider.addEventListener('touchstart', () => cancelAnimationFrame(animationId), { passive: true });
         slider.addEventListener('touchend', startOver, { passive: true });
+
+        slider.addEventListener('click', (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                e.stopPropagation();
+                setTimeout(() => { isDragging = false; }, 50);
+                return;
+            }
+            if (e.target.tagName === 'IMG') {
+                openLightbox(e.target.src);
+            }
+        });
 
         function play() {
             cancelAnimationFrame(animationId);
@@ -166,6 +181,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         slider.style.cursor = 'grab';
         play();
+    }
+
+    // Lightbox Logic
+    function openLightbox(src) {
+        let lightbox = document.getElementById('lightbox');
+        if (!lightbox) {
+            lightbox = document.createElement('div');
+            lightbox.id = 'lightbox';
+            lightbox.className = 'lightbox';
+
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'lightbox-close';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.onclick = () => lightbox.classList.remove('active');
+
+            const img = document.createElement('img');
+            img.id = 'lightbox-img';
+
+            lightbox.appendChild(closeBtn);
+            lightbox.appendChild(img);
+            document.body.appendChild(lightbox);
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) lightbox.classList.remove('active');
+            });
+        }
+
+        document.getElementById('lightbox-img').src = src;
+        lightbox.classList.add('active');
     }
 
     loadGallery('Gallery', '#gallery .gallery-track', 1);
