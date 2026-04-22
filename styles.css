@@ -481,16 +481,17 @@ a {
     text-decoration: none;
     width: 55px;
     height: 55px;
+    min-width: 55px;
     border-radius: 50%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, background-color 0.3s ease;
-    font-size: 0.8rem;
-    line-height: 1.1;
+    font-size: 0.85rem;
+    line-height: 1.2;
     text-align: center;
+    overflow: hidden;
 }
 
 .text-fab:hover {
@@ -512,7 +513,9 @@ a {
     .text-fab {
         width: 50px;
         height: 50px;
-        font-size: 0.7rem;
+        min-width: 50px;
+        font-size: 0.75rem;
+        line-height: 1.1;
     }
 }
 
